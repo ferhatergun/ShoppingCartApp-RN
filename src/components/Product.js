@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native'
 import { useDispatch } from 'react-redux'
 import { addBasket } from '../redux/BasketSlice'
 import { useSelector } from 'react-redux'
+import { Toast , ALERT_TYPE ,Dialog } from 'react-native-alert-notification'
 
 export default function Product({item}) {
     const navigation =useNavigation()
@@ -13,6 +14,16 @@ export default function Product({item}) {
     const dispatch = useDispatch()
     const sepet =useSelector(state=>state.basket.basket)
     // console.log(sepet)
+
+    const basketAdd=()=>{
+        dispatch(addBasket(item))
+        Dialog.show({
+            type: ALERT_TYPE.SUCCESS,
+            title: 'Sepete Eklendi',
+            textBody: 'Sepete Giderek Alışverişi Tamamalayabilisin',
+            autoClose:2000
+        })
+    }
   return (
     <TouchableOpacity style={styles.container} onPress={()=>navigation.navigate("ProductDetailNavigator",{item:item})}>
         <View style={styles.imageView}>
@@ -27,7 +38,7 @@ export default function Product({item}) {
         <View style={styles.productPriceView}>
             <Text style={styles.productPrice}>{Math.floor(item.price)}$</Text>
         </View>
-        <TouchableOpacity style={styles.basket} onPress={()=>dispatch(addBasket(item))}>
+        <TouchableOpacity style={styles.basket} onPress={()=>basketAdd()}>
             <IconFon name='shopping-basket-add' size={20} />
         </TouchableOpacity>
 

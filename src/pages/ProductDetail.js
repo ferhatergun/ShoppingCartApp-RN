@@ -1,13 +1,25 @@
-import { View, Text, StyleSheet ,Image } from 'react-native'
+import { View, Text, StyleSheet ,Image, TouchableOpacity } from 'react-native'
 import React from 'react'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { addBasket } from '../redux/BasketSlice'
+import { useDispatch } from 'react-redux'
+import { Toast ,ALERT_TYPE } from 'react-native-alert-notification'
 
 export default function ProductDetail({route}) {
   const {item} = route.params.item
-  console.log(item)
+  const dispatch=useDispatch()
+
+  const basketAdd=()=>{
+    Toast.show({
+      type: ALERT_TYPE.SUCCESS,
+      title: 'Sepete Eklendi',
+      textBody: 'Sepete Giderek Alışverişi Tamamalayabilisin',
+      autoClose:2000
+  })
+  dispatch(addBasket(item))
+  }
   return (
     <View style={styles.container}>
-      <View style={{flex:1,width:'85%',marginTop:30}}>
+      <View style={{flex:9,width:'85%',marginTop:30}}>
         <View style={styles.imageView}>
         <Image source={{ uri: item.image }} style={styles.image} />
         </View>
@@ -19,8 +31,10 @@ export default function ProductDetail({route}) {
         <View>
           <Text style={styles.productDescription}>{item.description}</Text>
         </View>
-        <TouchableOpacity style={styles.basketBtn}>
-          <Text style={{fontSize:18}}>Add Basket</Text>
+      </View>
+      <View style={styles.btnBar}>
+        <TouchableOpacity style={styles.basketBtn} onPress={()=>basketAdd()}>
+            <Text style={{fontSize:18,color:'white'}}>Add Basket</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -61,11 +75,18 @@ export default function ProductDetail({route}) {
       fontSize:15
     },
     basketBtn:{
-      height:50,
-      backgroundColor:'yellow',
+      height:40,
+      backgroundColor:'rebeccapurple',
       justifyContent:'center',
       alignItems:'center',
       borderRadius:30,
-      marginTop:20
+      width:200,
+    },
+    btnBar:{
+      flex:1,
+      backgroundColor:'#F1F2F3',
+      width:'100%',
+      justifyContent:'center',
+      alignItems:'center'
     }
 })

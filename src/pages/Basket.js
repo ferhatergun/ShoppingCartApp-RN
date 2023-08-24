@@ -1,17 +1,19 @@
-import { View, Text ,FlatList,TouchableOpacity ,StyleSheet} from 'react-native'
+import { View, Text ,FlatList,TouchableOpacity ,StyleSheet,Image} from 'react-native'
 import React ,{useEffect,useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import BasketListProduct from '../components/BasketListProduct'
 import  IconIo  from 'react-native-vector-icons/Ionicons'
 import  IconMc  from 'react-native-vector-icons/MaterialCommunityIcons'
 import { removeAll } from '../redux/BasketSlice'
+import img from '../assets/empty.png'
 
 
 export default function Basket() {
   const dispatch = useDispatch()
   const basket = useSelector(state=>state.basket.basket)
   const [total,setTotal]=useState(0)
-  console.log(basket)
+  // console.log(basket)
+
 
   useEffect(() => {
     // Sepetteki ürünlerin toplam fiyatını hesapla
@@ -30,7 +32,12 @@ export default function Basket() {
           data={basket}
           keyExtractor={(item)=>item.product.id}
           renderItem={(item)=><BasketListProduct item={item.item}/>}
-          />:<Text>boş</Text>
+          />:
+          <View style={styles.imgView}>
+            <Image source={img} style={styles.img} />
+            <Text style={{fontSize:17}}>Sepetiniz Boş</Text>
+            
+          </View>
         }
         
       </View>
@@ -97,5 +104,16 @@ export default function Basket() {
       alignItems: 'center',
       gap:5,
       borderRadius:10
+    },
+    img:{
+      width:300,
+      height:300,
+    },
+    imgView:{
+      width:'100%',
+      justifyContent:'center',
+      alignItems:'center',
+      marginTop:30,
+      opacity: 0.8,
     }
  })

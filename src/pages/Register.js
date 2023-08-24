@@ -18,7 +18,6 @@ export default function Register() {
     const navigation = useNavigation()
 
     const Register= async (values,setErrors)=>{
-        console.log(values)
 
         const data={
             name:values.name,
@@ -39,7 +38,7 @@ export default function Register() {
             console.log(result)  
             if(result.status == true){
                 // redux ile user id token saklaması yapıp Login atacağız
-                navigation.navigate("Log In")
+                navigation.navigate("Login")
             } 
             
         }catch(e){

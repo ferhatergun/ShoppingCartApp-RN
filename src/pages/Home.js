@@ -6,16 +6,12 @@ import Product from '../components/Product'
 import Pagination from '../components/Pagination'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
-import storage from '../storage'
 
 export default function Home({navigation})  {
-    const user= useSelector((state)=>state.user?.user)
-    const token= useSelector((state)=>state.user?.token)
-
-    
-    storage.load({
-        key:"user"
-    }).then(data=>console.log(data))
+    const user= useSelector((state)=>state.user.user)
+    const token= useSelector((state)=>state.user.token)
+    console.log(token)
+    console.log(user)
 
     const [product,setProduct]= useState([])
 
@@ -37,22 +33,18 @@ export default function Home({navigation})  {
         }
     }
     
-
     useEffect(()=>{
         if(token && user){
             fetchProduct()
             scrollToTop()
         }
   
-    },[page,token])
-    // console.log(product)
+    },[page,token,user])
     const numColumns = 2;
     const ItemSeparator = () => <View style={styles.separator} />
     const renderFooter = () => (<Pagination setPage={setPage} page={page} />)
-        
-      
     const flatListRef = useRef();
-
+    
     const scrollToTop = () => {
         flatListRef?.current?.scrollToOffset({ offset: 0, animated: true});
       };

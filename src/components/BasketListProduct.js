@@ -10,33 +10,8 @@ import { increase ,decrease,removeProduct} from '../redux/BasketSlice'
 
 
 export default function BasketListProduct({item}) {
-    // const [item,setItem]= useState([])
-    // const token = useSelector(state => state.user.token)
-    console.log(item)
     const dispatch = useDispatch()
 
-    /* const getProduct =async () => {
-        try{
-            const response = await axios.get(`https://demoapi.webudi.tech/api/products/${data.productId}`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    "Authorization": `Bearer ${token}`,
-                }
-            });              
-           const result = await response.data
-            // console.log(result)
-            if(result.status == true){
-                setItem(result.product)
-            }
-            
-        }catch(e){
-            console.log(e)
-        }
-    }
- */
-/*     useEffect(()=>{
-        getProduct()
-    },[]) */
   return (
     <View style={styles.container}>
       <View style={styles.imageView}>
@@ -100,7 +75,7 @@ const styles = StyleSheet.create({
     pcsButton:{
         width:30,
         height:30,
-        backgroundColor:'black',
+        backgroundColor:'rebeccapurple',
         justifyContent:'center',
         alignItems: 'center',
         borderRadius:10,

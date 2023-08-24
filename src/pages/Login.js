@@ -7,10 +7,10 @@ import img from '../assets/login.png'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import Register from './Register';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateToken } from '../redux/UserSlice';
 import { updateUser } from '../redux/UserSlice';
-import storage from '../storage'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
@@ -23,11 +23,10 @@ export default function Login() {
     const [password, setPassword] = useState("");
     const navigation = useNavigation()
     const dispatch=useDispatch()
+    const user =useSelector(state=>state.user.user)
 
 
     const Login= async (values,setErrors)=>{
-        console.log(values)
-        // navigation.navigate("Home")
         const data={
             email:values.email,
             password:values.password
@@ -41,8 +40,7 @@ export default function Login() {
             body:JSON.stringify(data)
              }) 
              const result = await response.json(); // database den gelen mesaj 
-             
-            console.log(result)
+             console.log(result)
             if(result.status == false){
                 if(result.message=="Kullanıcıya ait kayıt bulunamadı!"){
                     setErrors({ email: 'Kayıtlı Kullanıcı Bulunamadı' })
@@ -55,15 +53,10 @@ export default function Login() {
                 if(result.message=="Giriş Başarılı")
                 {
                     dispatch(updateToken(result.token))
-                    dispatch(updateUser(result.user.uuid)) 
-                     storage.save({
-                        key:'user',
-                        data:{
-                            userId:result.user.uuid,
-                            token:result.token
-                        }
-                    }) 
-                    navigation.navigate("Home")
+                    dispatch(updateUser(result.user)) 
+                    await AsyncStorage.setItem("user",JSON.stringify(result.user))
+                    await AsyncStorage.setItem("token",result.token)
+                    
                 }
             }
             

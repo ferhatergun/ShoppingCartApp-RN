@@ -1,9 +1,13 @@
 import React ,{useEffect}from 'react';
 import { Button, View ,Text, StyleSheet,TouchableOpacity} from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import  IconFa  from 'react-native-vector-icons/Feather';
+import  IconAn  from 'react-native-vector-icons/AntDesign';
+import  IconEn  from 'react-native-vector-icons/Entypo';
+import  IconIo  from 'react-native-vector-icons/Ionicons';
+import  IconMı  from 'react-native-vector-icons/MaterialIcons';
 import Login from './src/pages/Login';
 import Register from './src/pages/Register';
 import Basket from './src/pages/Basket';
@@ -11,38 +15,34 @@ import Home from './src/pages/Home';
 import ProductDetail from './src/pages/ProductDetail';
 import store from './src/redux/store';
 import { useSelector, useDispatch,Provider} from 'react-redux'
-import storage from './src/storage';
 import { updateToken, updateUser } from './src/redux/UserSlice';
+import { AlertNotificationRoot } from 'react-native-alert-notification';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Profile from './src/pages/Profile';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
+const Tab = createBottomTabNavigator()
 
 
 
 function AuthStack() {
   return (
     <Stack.Navigator screenOptions={{headerShown:true}}>
-      <Stack.Screen name="Log In" component={Login} />
+      <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Register" component={Register} />
     </Stack.Navigator>
   );
 }
 
-function BasketNavigator() {
-  return (
-    <Stack.Navigator 
-      screenOptions={{headerTitle:'My Store',headerTitleAlign:'center'}}>
-      <Stack.Screen name="Basket" component={Basket} />
-    </Stack.Navigator>
-  );
-}
 
 function ProductDetailNavigator({navigation,route}) {
   const item = route.params
   const basket = useSelector(state=>state.basket.basket)
   return (
     <Stack.Navigator screenOptions={{headerTitle:'My Store',headerRight:()=>(
-      <TouchableOpacity style={styles.basket} onPress={()=>navigation.navigate("BasketNavigator")} >
+      <TouchableOpacity style={styles.basket} onPress={()=>navigation.navigate("Basket")} >
         <Text><IconFa name='shopping-cart' size={20} /></Text>
         <Text style={styles.badge}>{basket.length}</Text>
       </TouchableOpacity>
@@ -55,47 +55,79 @@ function ProductDetailNavigator({navigation,route}) {
 
 
 
-
-function DrawerNavigatorScreen({navigation}) {
-  const user = useSelector((state)=>state.user?.user)
-   const dispatch = useDispatch();
-   const basket = useSelector(state=>state.basket.basket)
-
+const MainNavigator=()=>{
+  const dispatch = useDispatch();
+  const user =useSelector(state=>state.user.user)
+  const token =useSelector(state=>state.user.token)
+  const basket =useSelector(state=>state.basket.basket)
+  const navigation =useNavigation()
 
   useEffect(() => {
-    storage.load({
-      key: 'user',
-    }).then(data => {
-      dispatch(updateToken(data.token));
-      dispatch(updateUser(data.userId)); 
-      console.log(data)
-    }); 
-  }, [dispatch]); 
+    const fetchData = async () => {
+      try {
+        const user = await AsyncStorage.getItem("user")
+        const token = await AsyncStorage.getItem("token")
 
-  return (
-    <Drawer.Navigator initialRouteName="Home" 
-    screenOptions={{headerTitle:'My Store',headerRight:()=>(
-        <TouchableOpacity style={styles.basket} onPress={()=>navigation.navigate("BasketNavigator")}>
-          <Text><IconFa name='shopping-cart' size={20} /></Text>
-          <Text style={styles.badge}>{basket.length}</Text>
+        dispatch(updateUser(user));
+        dispatch(updateToken(token));
+      } catch (error) {
+        console.error("Veri yükleme hatası:", error);
+      }
+    };
 
-        </TouchableOpacity>)
-    ,headerTitleAlign:'center',headerStyle:styles.header}}>
+    fetchData();
+  }, [dispatch]);
 
-     {
-      user ?
-      <Drawer.Screen name="Home" component={Home} /> :
-      <Drawer.Screen name="Login" component={AuthStack} options={{headerShown:false}} />
-     }
-         
-         
-    
-    
-   
-  </Drawer.Navigator>
-  );
+  return(
+    <>{
+      user && token ? 
+      <Tab.Navigator 
+        screenOptions={{
+          headerTitle:'My Store',
+          headerTitleAlign:'center',
+          headerStyle:styles.header,
+          tabBarActiveTintColor:'rebeccapurple',
+          tabBarInactiveTintColor:'gray',
+          tabBarStyle:styles.tabbar,
+          tabBarLabelStyle:styles.tabbarLabel,
+          tabBarIconStyle:styles.Icon
+          
+        }}
+        
+      >
+        <Tab.Screen 
+          name='Home' 
+          component={Home} 
+          options={{tabBarIcon:({color})=><IconIo name='home' size={20} color={color} />}} />
+        <Tab.Screen 
+          name='Category' 
+          component={Home}
+          options={{tabBarIcon:({color})=><IconEn name='list' size={20} color={color}/>}} />
+        <Tab.Screen 
+          name='Basket' 
+          component={Basket} 
+          options={{tabBarIcon:({color})=><>
+          <IconMı name='shopping-cart' size={22} color={color}/>
+          {
+            basket.length>0 &&
+            <Text style={styles.badgeTabbar}>{basket.length}</Text>
+          }
+          
+          </>}} />
+        <Tab.Screen 
+          name='Profile' 
+          component={Profile} 
+          options={{tabBarIcon:({color})=><IconIo name='person' size={20} color={color} />}} />
+      </Tab.Navigator>
+      : 
+      <Stack.Navigator screenOptions={{headerShown:false}}>
+        <Stack.Screen name='Welcome My Store' component={AuthStack}/>
+      </Stack.Navigator>
+    }
+      
+    </>
+  )
 }
-
 
 
 
@@ -104,13 +136,16 @@ function DrawerNavigatorScreen({navigation}) {
 export default function App() {
   return (
     <Provider store={store}>
-      <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="DrawerNavigator" component={DrawerNavigatorScreen} />
-          <Stack.Screen name="BasketNavigator" component={BasketNavigator} />
-          <Stack.Screen name='ProductDetailNavigator' component={ProductDetailNavigator} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <AlertNotificationRoot theme='dark'>
+        <NavigationContainer>
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            {/* <Stack.Screen name="DrawerNavigator" component={DrawerNavigatorScreen} /> */}
+            <Stack.Screen name="main" component={MainNavigator} />
+            {/* <Stack.Screen name="BasketNavigator" component={BasketNavigator} /> */}
+            <Stack.Screen name='ProductDetailNavigator' component={ProductDetailNavigator} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </AlertNotificationRoot>
     </Provider>
   );
 }
@@ -128,7 +163,7 @@ const styles=StyleSheet.create({
   badge:{
     fontSize:12,
     position:'absolute',
-    backgroundColor:'black',
+    backgroundColor:'rebeccapurple',
     paddingLeft:5,
     paddingRight:5,
     color:'white',
@@ -137,5 +172,27 @@ const styles=StyleSheet.create({
     alignItems:'center',
     right: -10,
     top:-7
+  },
+  tabbarLabel:{
+    marginBottom:11,
+  },
+  tabbar:{
+    height:60
+  },
+  Icon:{
+    marginBottom:-7
+  },
+  badgeTabbar:{
+    fontSize:12,
+    position:'absolute',
+    backgroundColor:'rebeccapurple',
+    paddingLeft:5,
+    paddingRight:5,
+    color:'white',
+    borderRadius:50,
+    justifyContent: 'center',
+    alignItems:'center',
+    right:27,
+    top:5
   }
 })
