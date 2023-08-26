@@ -20,6 +20,7 @@ import { AlertNotificationRoot } from 'react-native-alert-notification';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Profile from './src/pages/Profile';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import 'react-native-gesture-handler'
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();

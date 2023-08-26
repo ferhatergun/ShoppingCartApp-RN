@@ -23,7 +23,7 @@ export default function Home({navigation})  {
                 headers: {
                     'Content-Type': 'application/json',
                     "Authorization": `Bearer ${token}`,
-                }
+                },
             });              
     
            const result = await response.data

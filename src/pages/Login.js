@@ -53,7 +53,7 @@ export default function Login() {
                 if(result.message=="Giriş Başarılı")
                 {
                     dispatch(updateToken(result.token))
-                    dispatch(updateUser(result.user)) 
+                    dispatch(updateUser(JSON.stringify(result.user)))
                     await AsyncStorage.setItem("user",JSON.stringify(result.user))
                     await AsyncStorage.setItem("token",result.token)
                     
