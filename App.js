@@ -21,6 +21,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Profile from './src/pages/Profile';
 import 'react-native-gesture-handler'
 import { storage } from './src/storage';
+import { updateBasket } from './src/redux/BasketSlice';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator()
@@ -77,6 +78,12 @@ const MainNavigator=()=>{
 
     fetchData();
   }, [dispatch]);
+
+
+  useEffect(()=>{
+    const newbasket =JSON.parse(storage.getString("basket")) 
+    dispatch(updateBasket(newbasket))
+  },[dispatch])
 
   return(
     <>{

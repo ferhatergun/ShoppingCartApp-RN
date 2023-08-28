@@ -34,6 +34,10 @@ export default function Basket() {
   })
     dispatch(removeAll())
   }
+
+  useEffect(()=>{
+    storage.set("basket",JSON.stringify(basket))
+  },[basket])
   return (
     <View style={styles.container}>
       <View style={styles.list}>

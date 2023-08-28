@@ -38,11 +38,14 @@ const BasketSlice = createSlice({
         },
         removeAll:(state)=>{
             state.basket=[]
+        },
+        updateBasket:(state,action) =>{
+            state.basket = action.payload
         }
 
     }
 })
 
-export const {addBasket , increase ,decrease, removeProduct,removeAll}=BasketSlice.actions
+export const {addBasket , increase ,decrease, removeProduct,removeAll ,updateBasket}=BasketSlice.actions
 
 export default BasketSlice.reducer
