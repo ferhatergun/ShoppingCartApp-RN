@@ -1,5 +1,5 @@
 import React ,{useEffect}from 'react';
-import { Button, View ,Text, StyleSheet,TouchableOpacity} from 'react-native';
+import { Button, View ,Text, StyleSheet,TouchableOpacity,StatusBar} from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -19,11 +19,10 @@ import { updateToken, updateUser } from './src/redux/UserSlice';
 import { AlertNotificationRoot } from 'react-native-alert-notification';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Profile from './src/pages/Profile';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import 'react-native-gesture-handler'
+import { storage } from './src/storage';
 
 const Stack = createStackNavigator();
-const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator()
 
 
@@ -64,10 +63,10 @@ const MainNavigator=()=>{
   const navigation =useNavigation()
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData =  () => {
       try {
-        const user = await AsyncStorage.getItem("user")
-        const token = await AsyncStorage.getItem("token")
+        const user =  storage.getString("user")
+        const token =  storage.getString("token")
 
         dispatch(updateUser(user));
         dispatch(updateToken(token));
@@ -90,8 +89,9 @@ const MainNavigator=()=>{
           tabBarActiveTintColor:'rebeccapurple',
           tabBarInactiveTintColor:'gray',
           tabBarStyle:styles.tabbar,
-          tabBarLabelStyle:styles.tabbarLabel,
-          tabBarIconStyle:styles.Icon
+          // tabBarLabelStyle:styles.tabbarLabel,
+          tabBarIconStyle:styles.Icon,
+          tabBarShowLabel:false
           
         }}
         
@@ -100,10 +100,6 @@ const MainNavigator=()=>{
           name='Home' 
           component={Home} 
           options={{tabBarIcon:({color})=><IconIo name='home' size={20} color={color} />}} />
-        <Tab.Screen 
-          name='Category' 
-          component={Home}
-          options={{tabBarIcon:({color})=><IconEn name='list' size={20} color={color}/>}} />
         <Tab.Screen 
           name='Basket' 
           component={Basket} 
@@ -138,6 +134,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <AlertNotificationRoot theme='dark'>
+        <StatusBar barStyle="dark-content"/>
         <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             {/* <Stack.Screen name="DrawerNavigator" component={DrawerNavigatorScreen} /> */}
@@ -180,9 +177,6 @@ const styles=StyleSheet.create({
   tabbar:{
     height:60
   },
-  Icon:{
-    marginBottom:-7
-  },
   badgeTabbar:{
     fontSize:12,
     position:'absolute',
@@ -193,7 +187,7 @@ const styles=StyleSheet.create({
     borderRadius:50,
     justifyContent: 'center',
     alignItems:'center',
-    right:27,
-    top:5
+    right:45,
+    top:10
   }
 })

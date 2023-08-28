@@ -3,7 +3,7 @@ import { View ,Text,StyleSheet, Button,Image,ScrollView} from 'react-native'
 import {  TextInput } from 'react-native-paper';
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import img from '../assets/login.png'
+import img from '../assets/register.png'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 
@@ -134,15 +134,15 @@ export default function Register() {
                                 {
                                     (Object.keys(errors).length > 0 || !Object.keys(touched).length) ?
                                      <Button title='Register' disabled />:
-                                     <Button title='Register' onPress={()=>Register(values,setErrors)} style={styles.RegisterBtn} color="#263238"  />
+                                     <Button title='Register' onPress={()=>Register(values,setErrors)} style={styles.RegisterBtn} color="#663399"  />
                                 }
                                 
                             </View>
                         )}
 
                 </Formik>
-                <TouchableOpacity style={{marginTop:10}} onPress={()=>navigation.navigate('Log In')}>
-                    <Text>Tıkla Giriş Yap</Text>
+                <TouchableOpacity style={{marginTop:10}} onPress={()=>navigation.navigate('Login')}>
+                    <Text>Have an account? Log in</Text>
                 </TouchableOpacity>
         </View>
     </ScrollView> 

@@ -10,7 +10,7 @@ import Register from './Register';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateToken } from '../redux/UserSlice';
 import { updateUser } from '../redux/UserSlice';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { storage } from '../storage';
 
 
 
@@ -54,8 +54,8 @@ export default function Login() {
                 {
                     dispatch(updateToken(result.token))
                     dispatch(updateUser(JSON.stringify(result.user)))
-                    await AsyncStorage.setItem("user",JSON.stringify(result.user))
-                    await AsyncStorage.setItem("token",result.token)
+                     storage.set("user",JSON.stringify(result.user))
+                     storage.set("token",result.token)
                     
                 }
             }
@@ -123,7 +123,7 @@ export default function Login() {
                                {(Object.keys(errors).length > 0 || !Object.keys(touched).length) ?
                                     <Button title='Login' disabled />
                                     :
-                                    <Button title='Login' onPress={() => Login(values, setErrors)} style={styles.loginBtn} color="#263238" />
+                                    <Button title='Login' onPress={() => Login(values, setErrors)} style={styles.loginBtn} color="#663399" />
                                 }
 
                                 
@@ -132,7 +132,7 @@ export default function Login() {
 
                 </Formik>
                 <TouchableOpacity style={{marginTop:10}} onPress={()=>navigation.navigate('Register')}>
-                    <Text>Tıkla Üye Ol</Text>
+                    <Text>Don't have an account? Sign up</Text>
                 </TouchableOpacity>
                 
 

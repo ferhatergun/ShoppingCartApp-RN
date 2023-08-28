@@ -1,7 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, View ,Keyboard} from 'react-native'
 import React, { useState ,useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { updateToken,updateUser } from '../redux/UserSlice'
 import { useNavigation } from '@react-navigation/native'
 import {Collapse,CollapseHeader, CollapseBody, AccordionList} from 'accordion-collapse-react-native';
@@ -13,6 +12,8 @@ import { TextInput } from 'react-native-paper';
 import { ScrollView } from 'react-native-gesture-handler'
 import axios from 'axios'
 import { Toast,ALERT_TYPE } from 'react-native-alert-notification'
+import { storage } from '../storage'
+
 
 
 export default function Profile() { // useri kullanmak için JSON.parse yapmak lazım
@@ -22,14 +23,12 @@ export default function Profile() { // useri kullanmak için JSON.parse yapmak l
     const dispatch =useDispatch()
     const navigation= useNavigation()
 
-    const loguot=async()=>{
-      const data = await AsyncStorage.clear()
+    const loguot=()=>{
+      storage.clearAll()
       dispatch(updateToken(false))
       dispatch(updateUser(false))
     }
-    
-    const [text, setText] = React.useState("");
-    const [keyboardShown,setKeyboardShown]=useState(false)
+        const [keyboardShown,setKeyboardShown]=useState(false)
 
     useEffect(() => {
       const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
@@ -74,7 +73,7 @@ export default function Profile() { // useri kullanmak için JSON.parse yapmak l
         const result = await response.data;
         console.log(result);
         dispatch(updateUser(JSON.stringify(result.user)))
-        await AsyncStorage.setItem("user",JSON.stringify(result.user))
+        storage.set("user",JSON.stringify(result.user))
         Toast.show({
           type: ALERT_TYPE.SUCCESS,
           title: 'Başarıyla Güncellendi',
@@ -102,7 +101,7 @@ export default function Profile() { // useri kullanmak için JSON.parse yapmak l
         const result = await response.data
         console.log(result)
         dispatch(updateUser(JSON.stringify(result.user)))
-        await AsyncStorage.setItem("user",JSON.stringify(result.user))
+        storage.set("user",JSON.stringify(result.user))
         Toast.show({
           type: ALERT_TYPE.SUCCESS,
           title: 'Başarıyla Güncellendi',
@@ -132,7 +131,7 @@ export default function Profile() { // useri kullanmak için JSON.parse yapmak l
         const result = await response.data
         console.log(result)
         dispatch(updateUser(JSON.stringify(result.user)))
-        await AsyncStorage.setItem("user",JSON.stringify(result.user))
+        storage.set("user",JSON.stringify(result.user))
         Toast.show({
           type: ALERT_TYPE.SUCCESS,
           title: 'Başarıyla Güncellendi',

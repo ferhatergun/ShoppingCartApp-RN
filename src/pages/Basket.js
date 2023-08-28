@@ -1,4 +1,4 @@
-import { View, Text ,FlatList,TouchableOpacity ,StyleSheet,Image} from 'react-native'
+import { View, Text ,FlatList,TouchableOpacity ,StyleSheet,Image, Button} from 'react-native'
 import React ,{useEffect,useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import BasketListProduct from '../components/BasketListProduct'
@@ -6,6 +6,8 @@ import  IconIo  from 'react-native-vector-icons/Ionicons'
 import  IconMc  from 'react-native-vector-icons/MaterialCommunityIcons'
 import { removeAll } from '../redux/BasketSlice'
 import img from '../assets/empty.png'
+import { Dialog ,ALERT_TYPE} from 'react-native-alert-notification'
+import { storage } from '../storage'
 
 
 export default function Basket() {
@@ -23,6 +25,16 @@ export default function Basket() {
     
     setTotal(calculatedTotal);
   }, [basket]);
+
+  const complated=()=>{
+    Dialog.show({
+      type: ALERT_TYPE.SUCCESS,
+      title: 'Siparişiniz Alındı',
+      textBody: 'Kargo Bilgileri Mail İler Gönderildi',
+      autoClose:2000
+  })
+    dispatch(removeAll())
+  }
   return (
     <View style={styles.container}>
       <View style={styles.list}>
@@ -49,7 +61,7 @@ export default function Basket() {
           <TouchableOpacity style={styles.removeAll} onPress={()=>dispatch(removeAll())}>
             <IconIo name='trash-bin-outline' size={30} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.complated}>
+          <TouchableOpacity style={styles.complated} onPress={()=>complated()}>
             <Text>Complated</Text>
             <IconMc name='truck-fast-outline' size={25} />
           </TouchableOpacity>

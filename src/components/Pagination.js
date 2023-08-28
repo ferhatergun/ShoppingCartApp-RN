@@ -27,10 +27,10 @@ const styles = StyleSheet.create({
         borderRadius:10,
         paddingHorizontal:12,
         paddingVertical:10,
-        borderColor:'black',
+        borderColor:'#663399',
         borderWidth:2
     },
     active:{
-      backgroundColor:'lightgray',
+      backgroundColor:'#e6e6e6',
     }
 })

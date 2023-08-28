@@ -2,11 +2,12 @@ import { View, Text ,Image,TouchableOpacity} from 'react-native'
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import  IconFon  from 'react-native-vector-icons/Fontisto'
+import  IconMC  from 'react-native-vector-icons/MaterialCommunityIcons'
 import { useNavigation } from '@react-navigation/native'
 import { useDispatch } from 'react-redux'
 import { addBasket } from '../redux/BasketSlice'
 import { useSelector } from 'react-redux'
-import { Toast , ALERT_TYPE ,Dialog } from 'react-native-alert-notification'
+import { Toast , ALERT_TYPE  } from 'react-native-alert-notification'
 
 export default function Product({item}) {
     const navigation =useNavigation()
@@ -17,7 +18,7 @@ export default function Product({item}) {
 
     const basketAdd=()=>{
         dispatch(addBasket(item))
-        Dialog.show({
+        Toast.show({
             type: ALERT_TYPE.SUCCESS,
             title: 'Sepete Eklendi',
             textBody: 'Sepete Giderek Alışverişi Tamamalayabilisin',
@@ -39,7 +40,7 @@ export default function Product({item}) {
             <Text style={styles.productPrice}>{Math.floor(item.price)}$</Text>
         </View>
         <TouchableOpacity style={styles.basket} onPress={()=>basketAdd()}>
-            <IconFon name='shopping-basket-add' size={20} />
+            <IconMC name='cart-plus' size={20} />
         </TouchableOpacity>
 
     </TouchableOpacity>
@@ -86,11 +87,11 @@ const styles = StyleSheet.create({
         position:'absolute',
         bottom:10,
         right:10,
-        padding:10,
-        borderRadius:50,
+        padding:7,
+        borderRadius:10,
         justifyContent:'center',
         alignItems:'center',
-        borderColor:'black',
+        borderColor:'rebeccapurple',
         borderWidth:1
    }
 
