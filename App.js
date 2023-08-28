@@ -41,7 +41,7 @@ function ProductDetailNavigator({navigation,route}) {
   const item = route.params
   const basket = useSelector(state=>state.basket.basket)
   return (
-    <Stack.Navigator screenOptions={{headerTitle:'My Store',headerRight:()=>(
+    <Stack.Navigator screenOptions={{headerTitle:'Ferhat Shop',headerRight:()=>(
       <TouchableOpacity style={styles.basket} onPress={()=>navigation.navigate("Basket")} >
         <Text><IconFa name='shopping-cart' size={20} /></Text>
         <Text style={styles.badge}>{basket.length}</Text>
@@ -83,7 +83,7 @@ const MainNavigator=()=>{
       user && token ? 
       <Tab.Navigator 
         screenOptions={{
-          headerTitle:'My Store',
+          headerTitle:'Ferhat Shop',
           headerTitleAlign:'center',
           headerStyle:styles.header,
           tabBarActiveTintColor:'rebeccapurple',
@@ -91,7 +91,7 @@ const MainNavigator=()=>{
           tabBarStyle:styles.tabbar,
           // tabBarLabelStyle:styles.tabbarLabel,
           tabBarIconStyle:styles.Icon,
-          tabBarShowLabel:false
+          tabBarShowLabel:false,
           
         }}
         
@@ -118,7 +118,7 @@ const MainNavigator=()=>{
       </Tab.Navigator>
       : 
       <Stack.Navigator screenOptions={{headerShown:false}}>
-        <Stack.Screen name='Welcome My Store' component={AuthStack}/>
+        <Stack.Screen name='Welcome Ferhat Shop' component={AuthStack}/>
       </Stack.Navigator>
     }
       
@@ -134,12 +134,10 @@ export default function App() {
   return (
     <Provider store={store}>
       <AlertNotificationRoot theme='dark'>
-        <StatusBar barStyle="dark-content"/>
+        <StatusBar barStyle="default"/>
         <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
-            {/* <Stack.Screen name="DrawerNavigator" component={DrawerNavigatorScreen} /> */}
             <Stack.Screen name="main" component={MainNavigator} />
-            {/* <Stack.Screen name="BasketNavigator" component={BasketNavigator} /> */}
             <Stack.Screen name='ProductDetailNavigator' component={ProductDetailNavigator} />
           </Stack.Navigator>
         </NavigationContainer>

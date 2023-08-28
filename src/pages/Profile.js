@@ -19,7 +19,6 @@ import { storage } from '../storage'
 export default function Profile() { // useri kullanmak için JSON.parse yapmak lazım
     const user= JSON.parse(useSelector(state=>state.user.user))
     const token = useSelector(state=>state.user.token)
-    console.log(user.name)
     const dispatch =useDispatch()
     const navigation= useNavigation()
 
@@ -76,8 +75,8 @@ export default function Profile() { // useri kullanmak için JSON.parse yapmak l
         storage.set("user",JSON.stringify(result.user))
         Toast.show({
           type: ALERT_TYPE.SUCCESS,
-          title: 'Başarıyla Güncellendi',
-          textBody: 'isim başarıyla güncellendi',
+          title: 'Successfully Updated',
+          textBody: 'Name Successfully Updated',
           autoClose:2000
       })
       } catch (error) {
@@ -104,8 +103,8 @@ export default function Profile() { // useri kullanmak için JSON.parse yapmak l
         storage.set("user",JSON.stringify(result.user))
         Toast.show({
           type: ALERT_TYPE.SUCCESS,
-          title: 'Başarıyla Güncellendi',
-          textBody: 'email başarıyla güncellendi',
+          title: 'Successfully Updated',
+          textBody: 'Email Successfully Updated',
           autoClose:2000
       })
       }catch(e){
@@ -134,8 +133,8 @@ export default function Profile() { // useri kullanmak için JSON.parse yapmak l
         storage.set("user",JSON.stringify(result.user))
         Toast.show({
           type: ALERT_TYPE.SUCCESS,
-          title: 'Başarıyla Güncellendi',
-          textBody: 'şifre başarıyla güncellendi',
+          title: 'Successfully Updated',
+          textBody: 'Password Successfully Updated',
           autoClose:2000
       })
       }catch(e){

@@ -11,8 +11,8 @@ export default function ProductDetail({route}) {
   const basketAdd=()=>{
     Toast.show({
       type: ALERT_TYPE.SUCCESS,
-      title: 'Sepete Eklendi',
-      textBody: 'Sepete Giderek Alışverişi Tamamalayabilisin',
+      title: 'Added To Cart',
+      textBody: 'You Can Complete Your Shopping By Going To Cart',
       autoClose:2000
   })
   dispatch(addBasket(item))

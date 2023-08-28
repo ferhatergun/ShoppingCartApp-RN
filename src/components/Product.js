@@ -11,17 +11,15 @@ import { Toast , ALERT_TYPE  } from 'react-native-alert-notification'
 
 export default function Product({item}) {
     const navigation =useNavigation()
-    // console.log(item) 
     const dispatch = useDispatch()
     const sepet =useSelector(state=>state.basket.basket)
-    // console.log(sepet)
 
     const basketAdd=()=>{
         dispatch(addBasket(item))
         Toast.show({
             type: ALERT_TYPE.SUCCESS,
-            title: 'Sepete Eklendi',
-            textBody: 'Sepete Giderek Alışverişi Tamamalayabilisin',
+            title: 'Added To Cart',
+            textBody: 'You Can Complete Your Shopping By Going To Cart',
             autoClose:2000
         })
     }

@@ -10,8 +10,6 @@ import { useSelector } from 'react-redux'
 export default function Home({navigation})  {
     const user= useSelector((state)=>state.user.user)
     const token= useSelector((state)=>state.user.token)
-    console.log(token)
-    console.log(user)
 
     const [product,setProduct]= useState([])
 

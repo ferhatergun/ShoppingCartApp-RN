@@ -14,7 +14,6 @@ export default function Basket() {
   const dispatch = useDispatch()
   const basket = useSelector(state=>state.basket.basket)
   const [total,setTotal]=useState(0)
-  // console.log(basket)
 
 
   useEffect(() => {
@@ -29,8 +28,8 @@ export default function Basket() {
   const complated=()=>{
     Dialog.show({
       type: ALERT_TYPE.SUCCESS,
-      title: 'Siparişiniz Alındı',
-      textBody: 'Kargo Bilgileri Mail İler Gönderildi',
+      title: 'Your Order Has Been Received',
+      textBody: 'Will Be Delivered Within 3 Days',
       autoClose:2000
   })
     dispatch(removeAll())
@@ -47,7 +46,7 @@ export default function Basket() {
           />:
           <View style={styles.imgView}>
             <Image source={img} style={styles.img} />
-            <Text style={{fontSize:17}}>Sepetiniz Boş</Text>
+            <Text style={{fontSize:17}}>Your Cart Is Empty</Text>
             
           </View>
         }
