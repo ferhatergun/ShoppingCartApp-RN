@@ -81,8 +81,9 @@ const MainNavigator=()=>{
 
 
   useEffect(()=>{
-    const newbasket =JSON.parse(storage.getString("basket")) 
-    dispatch(updateBasket(newbasket))
+    const newbasket =storage.getString("basket")
+    // console.log(JSON.parse(newbasket))
+    dispatch(updateBasket(newbasket ? JSON.parse(newbasket) : [])) 
   },[dispatch])
 
   return(
@@ -113,7 +114,7 @@ const MainNavigator=()=>{
           options={{tabBarIcon:({color})=><>
           <IconMı name='shopping-cart' size={22} color={color}/>
           {
-            basket.length>0 &&
+             basket && basket.length>0 &&
             <Text style={styles.badgeTabbar}>{basket.length}</Text>
           }
           
@@ -141,7 +142,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <AlertNotificationRoot theme='dark'>
-        <StatusBar barStyle="default"/>
+        <StatusBar barStyle="dark-content"/>
         <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="main" component={MainNavigator} />

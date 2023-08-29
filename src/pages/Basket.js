@@ -61,10 +61,10 @@ export default function Basket() {
           <Text>{total} $</Text>
         </View>
         <View style={styles.buttonView}>
-          <TouchableOpacity style={styles.removeAll} onPress={()=>dispatch(removeAll())}>
+          <TouchableOpacity style={[styles.removeAll, basket.length == 0 && styles.inActive ]} onPress={()=>dispatch(removeAll())} disabled={basket.length == 0}>
             <IconIo name='trash-bin-outline' size={30} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.complated} onPress={()=>complated()}>
+          <TouchableOpacity style={[styles.complated ,basket.length == 0 && styles.inActive ]} onPress={()=>complated()} disabled={basket.length == 0}>
             <Text>Complated</Text>
             <IconMc name='truck-fast-outline' size={25} />
           </TouchableOpacity>
@@ -130,5 +130,8 @@ export default function Basket() {
       alignItems:'center',
       marginTop:30,
       opacity: 0.8,
+    },
+    inActive:{
+      opacity:0.3
     }
  })

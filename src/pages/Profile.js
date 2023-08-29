@@ -44,7 +44,7 @@ export default function Profile() { // useri kullanmak için JSON.parse yapmak l
       };
     }, []);
 
-    const [name,setName] = useState((user).name)
+    const [name,setName] = useState(user.name)
     const [email,setEmail] = useState(user.email)
     const [password,setPassword] = useState("")
     const [passwordCheck,setPasswordCheck] = useState("")
@@ -172,7 +172,7 @@ export default function Profile() { // useri kullanmak için JSON.parse yapmak l
                   />
                   {
                     showName ? 
-                    <TouchableOpacity style={styles.editBtn} onPress={()=>changeName()}>
+                    <TouchableOpacity style={[styles.editBtn, user.name == name && styles.inActive]} onPress={()=>changeName()} disabled={user.name == name}>
                       <IconFe name='send' size={20} color='white'  />
                     </TouchableOpacity> :
 
@@ -195,7 +195,7 @@ export default function Profile() { // useri kullanmak için JSON.parse yapmak l
                   />
                   {
                     showEmail ? 
-                    <TouchableOpacity style={styles.editBtn} onPress={()=>changeEmail()}>
+                    <TouchableOpacity style={[styles.editBtn, user.email == email && styles.inActive]} onPress={()=>changeEmail()} disabled={user.email == email}>
                       <IconFe name='send' size={20} color='white'  />
                     </TouchableOpacity> :
 
@@ -226,7 +226,7 @@ export default function Profile() { // useri kullanmak için JSON.parse yapmak l
                   /></View>
                   {
                     showPassword ? 
-                    <TouchableOpacity style={styles.editBtn} onPress={()=>changePassword()}>
+                    <TouchableOpacity style={[styles.editBtn,( password =="" || passwordCheck=="")  && styles.inActive]} onPress={()=>changePassword()} disabled={password =="" || passwordCheck==""}>
                       <IconFe name='send' size={20} color='white'  />
                     </TouchableOpacity> :
 
@@ -321,5 +321,8 @@ const styles = StyleSheet.create({
     borderRadius:10,
     justifyContent: 'center',
     marginTop:5
+  },
+  inActive:{
+    opacity:0.4
   }
 })
