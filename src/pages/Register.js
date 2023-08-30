@@ -126,6 +126,7 @@ export default function Register() {
                                 mode='outlined'
                                 error={errors.trypassword && touched.trypassword}
                                 onBlur={handleBlur('trypassword')}
+                                secureTextEntry={true}
                                 />
                                 { touched.trypassword &&
                                     <Text style={styles.error}>{errors.trypassword}</Text>

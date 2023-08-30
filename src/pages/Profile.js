@@ -151,7 +151,7 @@ export default function Profile() { // useri kullanmak için JSON.parse yapmak l
           <Avatar.Image size={90} source={require('../assets/avatar.png')} />
         </View>
         <View style={styles.acordionView}>
-          <Text style={{fontSize:18,marginBottom:5}}>Mustafa</Text>
+          <Text style={{fontSize:18,marginBottom:5}}>{user.name}</Text>
             <Collapse>
           <CollapseHeader>
             <View style={styles.acordionHeader}>
