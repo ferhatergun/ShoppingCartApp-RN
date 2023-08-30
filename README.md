@@ -18,7 +18,6 @@
 |------|--------|
 | ![Proifle](https://github.com/ferhatergun/ShoppingCartApp-RN/blob/main/assets/profile.jpg) | ![Login](https://github.com/ferhatergun/ShoppingCartApp-RN/blob/main/assets/login.jpg) 
 
+
 ## Proje Videosu
-
-https://github.com/ferhatergun/ShoppingCartApp-RN/assets/123299806/e60235ae-2729-49e7-baad-77c159c5874e
-
+https://www.veed.io/view/e1cfcc06-9491-4e19-9571-687f4d61f19a?sharingWidget=true&panel=share
