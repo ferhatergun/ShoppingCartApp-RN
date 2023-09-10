@@ -16,7 +16,11 @@
     "accordion-collapse-react-native": "^1.1.1",
     "axios": "^1.4.0",
     "expo": "~49.0.7",
+    "expo-constants": "^14.4.2",
+    "expo-dev-client": "~2.4.8",
     "expo-doctor": "^1.1.3",
+    "expo-modules": "^0.0.0",
+    "expo-modules-core": "^1.5.11",
     "expo-splash-screen": "~0.20.5",
     "expo-status-bar": "~1.6.0",
     "formik": "^2.4.3",
@@ -32,7 +36,7 @@
     "react-native-vector-icons": "^10.0.0",
     "react-redux": "^8.1.2",
     "yup": "^1.2.0",
-    "expo-dev-client": "~2.4.8"
+    "expo-application": "~5.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
